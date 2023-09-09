@@ -1,0 +1,21 @@
+/*
+ * SYSTICK_Config.h
+ *
+ *  Created on: Aug 19, 2023
+ *      Author: Mahmoud Ahmed Ibrahim
+ */
+
+#ifndef SYSTICK_SYSTICK_CONFIG_H_
+#define SYSTICK_SYSTICK_CONFIG_H_
+
+#define SYSTICK_AHB_DIV1	0
+#define SYSTICK_AHB_DIV8	1
+
+#define SYSTICK_CLOCK_SOURCE SYSTICK_AHB_DIV8
+
+#define SYSTICK_PERIODIC		0
+#define SYSTICK_NON_PERIODIC	1
+
+#define SYSTICK_INTERPUT	SYSTICK_PERIODIC
+
+#endif /* SYSTICK_SYSTICK_CONFIG_H_ */
