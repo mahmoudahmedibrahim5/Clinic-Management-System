@@ -182,9 +182,9 @@ void APP_voidAddPatient(void)
 	SYSTICK_voidDelayMilliSec(20);
 	Patient[Global_PatientCounter].ID=Global_PatientCounter;
 	LCD_voidDisplayString(Patient[Global_PatientCounter].name);
-	LCD_voidDisplayString(" ID is ");
-	LCD_voidMoveCursor(0,14);
-	LCD_voidIntgerToString(Global_PatientCounter); //It shall display "(Patient's name) ID is (Patient's ID)"
+	LCD_voidDisplayStringRowColumn(1,0,"ID number ");
+	LCD_voidMoveCursor(1,10);
+	LCD_voidIntgerToString(Global_PatientCounter); //It shall display "(Patient's name) ID number (Patient's ID)"
 	SYSTICK_voidDelayMilliSec(500);
 	LCD_voidClearScreen();
 	Global_PatientCounter++;
@@ -199,20 +199,20 @@ void APP_voidEditPatient(void)
 	{
 		if(PatientNameToEdit==Patient[i].name)
 		{
-			LCD_voidDisplayString("Enter Patients name");
-			BT_voidReceiveData(&mobile,Patient[Global_PatientCounter].name,20);
+			LCD_voidDisplayString("Enter Patients modified name");
+			BT_voidReceiveData(&mobile,Patient[i].name,20);
 			SYSTICK_voidDelayMilliSec(20);
-			LCD_voidDisplayString("Enter Patients age");
-			BT_voidReceiveData(&mobile,Patient[Global_PatientCounter].age,2);
+			LCD_voidDisplayString("Enter Patients modified age");
+			BT_voidReceiveData(&mobile,Patient[i].age,2);
 			SYSTICK_voidDelayMilliSec(20);
-			LCD_voidDisplayString("Enter Patients gender");
-			BT_voidReceiveData(&mobile,Patient[Global_PatientCounter].gender,6);
+			LCD_voidDisplayString("Enter Patients modified gender");
+			BT_voidReceiveData(&mobile,Patient[i].gender,6);
 			SYSTICK_voidDelayMilliSec(20);
 			Patient[Global_PatientCounter].ID=Global_PatientCounter;
-			LCD_voidDisplayString(Patient[Global_PatientCounter].name);
-			LCD_voidDisplayString(" ID is ");
-			LCD_voidMoveCursor(0,14);
-			LCD_voidIntgerToString(Global_PatientCounter); //It shall display "(Patient's name) ID is (Patient's ID)"
+			LCD_voidDisplayString(Patient[i].name);
+			LCD_voidDisplayStringRowColumn(1,0,"ID number ");
+			LCD_voidMoveCursor(1,10);
+			LCD_voidIntgerToString(i); //It shall display "(Patient's name) ID number (Patient's ID)"
 			SYSTICK_voidDelayMilliSec(500);
 			LCD_voidClearScreen();
 			Global_PatientCounter++;
