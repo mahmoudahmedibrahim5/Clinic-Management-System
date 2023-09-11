@@ -48,7 +48,8 @@ void APP_voidStart(void)
 	 * choose the mode
 	 * 1- Admin Mode 	2- User Mode
 	 */
-
+	LCD_voidDisplayString("Select Mode");
+	LCD_voidDisplayStringRowColumn(1,0,"1-Admin mode   2-User mode");
 	/* Read The input */
 	while(KEYPAD_u8Read(&input)==NO_KEY_PRESSED);
 	mode = KEYPAD_u8Read(&input);
