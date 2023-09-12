@@ -12,10 +12,7 @@
 
 #include "HLCD.h"
 
-#include "../../MCAL/MSTK/MSTK_Int.h"
-#include "../../MCAL/MGPIO/MGPIO_Int.h"
-#include "../../LIB/std_types.h"
-#include "../../LIB/BIT_Math.h"
+
 
 void LCD_voidInit(void)
 {

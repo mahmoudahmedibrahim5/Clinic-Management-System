@@ -13,20 +13,8 @@
 #include "../HAL/BT_Module/BT_Interface.h"
 #include "../HAL/KeyPad/KEYPAD_Interface.h"
 #include "../HAL/LED/LED_Interface.h"
+#include "../HAL/LCD/HLCD.h"
 
-/*********************** Patient ***********************/
-typedef enum{
-	FEMALE,
-	MALE
-}EN_Gender_t;
-
-typedef struct{
-	u8 name[20];
-	u8 age;
-	u8 ID;
-	EN_SlotTime_t slot;
-	EN_Gender_t gender;
-}ST_Patient_t;
 
 /********************** Time Slots *********************/
 typedef enum{
@@ -47,6 +35,20 @@ typedef struct{
 	EN_SlotAvailability_t availability;
 	u8 ID;
 }ST_Slot_t;
+
+/*********************** Patient ***********************/
+typedef enum{
+	FEMALE,
+	MALE
+}EN_Gender_t;
+
+typedef struct{
+	u8 name[20];
+	u8 age;
+	u8 ID;
+	EN_SlotTime_t slot;
+	EN_Gender_t gender;
+}ST_Patient_t;
 
 /*******************************************************/
 

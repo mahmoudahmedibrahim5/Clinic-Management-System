@@ -43,10 +43,8 @@ void APP_voidInit(void)
 	BT_voidInit(&mobile);
 	LCD_voidInit();
 
-	for(u8 i = 0; i < 5; i++){
-		timeSlots[i].time = i;
+	for(u8 i = 0; i < 5; i++)
 		timeSlots[i].availability = AVAILABLE;
-	}
 }
 
 /**************** Start Function *****************/
@@ -206,7 +204,7 @@ void APP_voidAddPatient(void)
 
 	LCD_voidDisplayString("Enter Patients age");
 	BT_voidReceiveData(&mobile, receivedAge, 2);
-	Patient[PatientIDToEdit].age = ((receivedAge[0]-'0')*10) + (receivedAge[1]-'0');
+	Patient[Global_PatientCounter].age = ((receivedAge[0]-'0')*10) + (receivedAge[1]-'0');
 	SYSTICK_voidDelayMilliSec(20);
 
 	LCD_voidDisplayString("Enter Patients gender (M/F)");
@@ -234,7 +232,7 @@ void APP_voidEditPatient(void)
 	while(1)
 	{
 		LCD_voidDisplayString("Enter ID Of Patient To Edit, to exit press '*'");
-		BT_voidReceiveData(&mobile,PatientIDToEdit, 1);
+		BT_voidReceiveData(&mobile, &PatientIDToEdit, 1);
 
 		if(PatientIDToEdit == '*')
 			return;
@@ -255,7 +253,7 @@ void APP_voidEditPatient(void)
 			while(numbertoedit != '1' || numbertoedit != '2' || numbertoedit != '3')
 			{
 				LCD_voidDisplayString("Enter number of data to edit");
-				BT_voidReceiveData(&mobile, numbertoedit, 1);
+				BT_voidReceiveData(&mobile, &numbertoedit, 1);
 			}
 
 			if(numbertoedit == '1')
@@ -314,14 +312,14 @@ void APP_voidReserveSlot(void)
 	LCD_voidDisplayString("1)12PM 2)1PM 3)2PM");
 	LCD_voidMoveCursor(1,0);
 	LCD_voidDisplayString("4)3PM 5)4PM");
-	BT_voidReceiveData(&mobile,slot, 1);
+	BT_voidReceiveData(&mobile, &slot, 1);
 
 	if(timeSlots[(slot-1)].availability == AVAILABLE)
 	{
 		LCD_voidClearScreen();
 		SYSTICK_voidDelayMilliSec(500);
 		LCD_voidDisplayString("Please enter ID: ");
-		BT_voidReceiveData(&mobile, id, 1);
+		BT_voidReceiveData(&mobile, &id, 1);
 		timeSlots[(slot-1)].availability = NOT_AVAILABLE;
 		timeSlots[(slot-1)].ID = id;
 	}
@@ -331,8 +329,6 @@ void APP_voidReserveSlot(void)
 		SYSTICK_voidDelayMilliSec(500);
 		LCD_voidDisplayString("Slot unavailable!");
 	}
-
-
 }
 
 void APP_voidCancelReservation(void)
