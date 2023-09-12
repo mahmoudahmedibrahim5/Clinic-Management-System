@@ -20,18 +20,6 @@ typedef enum{
 	MALE
 }EN_Gender_t;
 
-/********************** Time Slots *********************/
-typedef enum{
-	FROM_12_TO_1,
-	FROM_1_TO_2,
-	FROM_2_TO_3,
-	FROM_3_TO_4,
-	FROM_4_TO_5
-}EN_SlotTime_t;
-
-/********************** Patient **********************/
-
-
 typedef struct{
 	u8 name[20];
 	u8 age;
@@ -40,7 +28,14 @@ typedef struct{
 	EN_Gender_t gender;
 }ST_Patient_t;
 
-
+/********************** Time Slots *********************/
+typedef enum{
+	FROM_12_TO_1,
+	FROM_1_TO_2,
+	FROM_2_TO_3,
+	FROM_3_TO_4,
+	FROM_4_TO_5
+}EN_SlotTime_t;
 
 typedef enum{
 	NOT_AVAILABLE,
