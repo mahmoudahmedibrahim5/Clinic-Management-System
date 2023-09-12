@@ -20,23 +20,27 @@ typedef enum{
 	MALE
 }EN_Gender_t;
 
+/********************** Time Slots *********************/
+typedef enum{
+	FROM_12_TO_1,
+	FROM_1_TO_2,
+	FROM_2_TO_3,
+	FROM_3_TO_4,
+	FROM_4_TO_5
+}EN_SlotTime_t;
+
+/********************** Patient **********************/
+
+
 typedef struct{
 	u8 name[20];
 	u8 age;
 	u8 ID;
+	EN_SlotTime_t slot;
 	EN_Gender_t gender;
 }ST_Patient_t;
 
-/*******************************************************/
 
-/********************** Time Slots *********************/
-typedef enum{
-	FROM_2_TO_2_30,
-	FROM_2_30_TO_3,
-	FROM_3_TO_3_30,
-	FROM_4_TO_4_30,
-	FROM_4_30_TO_5
-}EN_SlotTime_t;
 
 typedef enum{
 	NOT_AVAILABLE,
@@ -44,7 +48,7 @@ typedef enum{
 }EN_SlotAvailability_t;
 
 typedef struct{
-	EN_SlotTime_t time;
+	//I think this attribute is not needed since the array of slots is numberedEN_SlotTime_t time;
 	EN_SlotAvailability_t availability;
 	u8 ID;
 }ST_Slot_t;
@@ -59,7 +63,7 @@ void APP_voidStart(void);
 void APP_voidAdminMode(void);
 void APP_voidUserMode(void);
 
-// Admin mode functions
+// Administrator mode functions
 void APP_voidAddPatient(void);
 void APP_voidEditPatient(void);
 void APP_voidReserveSlot(void);

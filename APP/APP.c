@@ -13,16 +13,25 @@ KeyPad_t input = {PORTA, {0, 1, 2, 3, 4, 5, 6, 7}};
 BT_t mobile = {USART1, 9600};	// Tx PA9, Rx PA10
 /*******************************************************/
 
-
 /********************* Time Slots **********************/
-ST_Slot_t timeSlots[5];
+ST_Slot_t timeSlots[6];
+/*******************************************************/
+
+/********************* Patients ************************/
+ST_Patient_t Patient[50];
 /*******************************************************/
 
 /****************** Constant Variables *****************/
 const u8 Password[3] = {1, 2, 3};
 /*******************************************************/
 
+/****************** Patients Counter *******************/
 static u8 Global_PatientCounter=0;
+/*******************************************************/
+
+/*----------------------------------------------------------------------------------------------*/
+
+/**************** Initialize Function *****************/
 
 void APP_voidInit(void)
 {
@@ -40,6 +49,8 @@ void APP_voidInit(void)
 		timeSlots[i].availability = AVAILABLE;
 	}
 }
+
+/**************** Start Function *****************/
 
 void APP_voidStart(void)
 {
@@ -60,6 +71,9 @@ void APP_voidStart(void)
 	else if(mode == 2)
 		APP_voidUserMode();
 }
+
+/**************** Mode Functions *****************/
+
 
 void APP_voidAdminMode(void)
 {
@@ -169,17 +183,25 @@ void APP_voidUserMode(void)
 	}
 }
 
+
+/**************** Administrator Functions *****************/
+
+
 void APP_voidAddPatient(void)
 {
+	u8 gender;
 	LCD_voidDisplayString("Enter Patients name");
 	BT_voidReceiveData(&mobile,Patient[Global_PatientCounter].name,20);
 	SYSTICK_voidDelayMilliSec(20);
 	LCD_voidDisplayString("Enter Patients age");
 	BT_voidReceiveData(&mobile,Patient[Global_PatientCounter].age,2);
 	SYSTICK_voidDelayMilliSec(20);
-	LCD_voidDisplayString("Enter Patients gender");
-	BT_voidReceiveData(&mobile,Patient[Global_PatientCounter].gender,6);
+	LCD_voidDisplayString("Enter Patients gender (M/F)");
+	BT_voidReceiveData(&mobile, gender, 1);
 	SYSTICK_voidDelayMilliSec(20);
+	if(gender == 'M')	Patient[Global_PatientCounter].gender = MALE
+	else if(gender == 'F')	Patient[Global_PatientCounter].gender = FEMALE
+
 	Patient[Global_PatientCounter].ID=Global_PatientCounter;
 	LCD_voidDisplayString(Patient[Global_PatientCounter].name);
 	LCD_voidDisplayStringRowColumn(1,0,"ID number ");
@@ -192,31 +214,178 @@ void APP_voidAddPatient(void)
 
 void APP_voidEditPatient(void)
 {
-	u8 PatientNameToEdit[20];
-	LCD_voidDisplayString("Enter Name Of Patient To Edit");
-	BT_voidReceiveData(&mobile,PatientNameToEdit,20);
-	for(u8 i=0;i<50;i++)
+	u8 PatientIDToEdit;
+	u8 numbertoedit = 0;
+
+	/*LCD_voidDisplayString("Enter Name Of Patient To Edit");
+	BT_voidReceiveData(&mobile,PatientNameToEdit,20);*/
+
+	while(1)
 	{
-		if(PatientNameToEdit==Patient[i].name)
+		LCD_voidDisplayString("Enter ID Of Patient To Edit, to exit press '*'");
+		BT_voidReceiveData(&mobile,PatientIDToEdit, 1);
+
+		if(PatientIDToEdit == '*')
+			return;
+
+		//for(u8 i=0;i<50;i++)
+		//{ why?
+		if(PatientIDToEdit < Global_PatientCounter>)//we could use ID
 		{
-			LCD_voidDisplayString("Enter Patients modified name");
-			BT_voidReceiveData(&mobile,Patient[i].name,20);
-			SYSTICK_voidDelayMilliSec(20);
-			LCD_voidDisplayString("Enter Patients modified age");
-			BT_voidReceiveData(&mobile,Patient[i].age,2);
-			SYSTICK_voidDelayMilliSec(20);
-			LCD_voidDisplayString("Enter Patients modified gender");
-			BT_voidReceiveData(&mobile,Patient[i].gender,6);
-			SYSTICK_voidDelayMilliSec(20);
-			Patient[Global_PatientCounter].ID=Global_PatientCounter;
-			LCD_voidDisplayString(Patient[i].name);
+			LCD_voidDisplayString("Patient's data:");
+			SYSTICK_voidDelayMilliSec(1500);
+			LCD_voidDisplayString("1-Name:");
+			SYSTICK_voidDelayMilliSec(1500);
+			LCD_voidDisplayString("2-Age:");
+			SYSTICK_voidDelayMilliSec(1500);
+			LCD_voidDisplayString("3-Gender:");
+			SYSTICK_voidDelayMilliSec(1500);
+			//if we can display them together would be better
+
+			while(numbertoedit != '1' || numbertoedit != '2' || numbertoedit != '3')
+			{
+			LCD_voidDisplayString("Enter number of data to edit");
+			BT_voidReceiveData(&mobile, numbertoedit, 1);
+			}
+
+			if(numbertoedit == '1')
+			{
+				LCD_voidDisplayString("Enter Patient's modified name");
+				BT_voidReceiveData(&mobile,Patient[PatientIDToEdit].name,20);
+				SYSTICK_voidDelayMilliSec(500);
+				LCD_voidDisplayString("Modified name:");
+				LCD_voidMoveCursor(0,15);
+				LCD_voidDisplayString(Patient[PatientIDToEdit].name);
+				SYSTICK_voidDelayMilliSec(1000);
+			}
+
+			else if(numbertoedit == '2')
+			{
+				LCD_voidDisplayString("Enter Patients modified age");
+				BT_voidReceiveData(&mobile,Patient[PatientIDToEdit].age, 2);
+				SYSTICK_voidDelayMilliSec(500);
+				LCD_voidDisplayString("Modified age:");
+				LCD_voidMoveCursor(0,14);
+				LCD_voidIntgerToString(Patient[PatientIDToEdit].age);
+				SYSTICK_voidDelayMilliSec(1000);
+			}
+
+			else if(numbertoedit == '3')
+			{
+				LCD_voidDisplayString("Enter Patients modified gender (M/F)");
+				BT_voidReceiveData(&mobile,Patient[PatientIDToEdit].gender,1);
+				SYSTICK_voidDelayMilliSec(500);
+				LCD_voidDisplayString("Modified gender:");
+				LCD_voidMoveCursor(0,17);
+				if(Patient[PatientIDToEdit].gender == MALE) LCD_voidDisplayString("MALE");
+				else	LCD_voidDisplayString("FEMALE");
+				SYSTICK_voidDelayMilliSec(1000);
+			}
+
+			//why since we are editing so patient will keep their ID
+			//to maintain order of array? Patient[Global_PatientCounter].ID=Global_PatientCounter;
+
+			/*LCD_voidDisplayString(Patient[i].name);
 			LCD_voidDisplayStringRowColumn(1,0,"ID number ");
 			LCD_voidMoveCursor(1,10);
 			LCD_voidIntgerToString(i); //It shall display "(Patient's name) ID number (Patient's ID)"
-			SYSTICK_voidDelayMilliSec(500);
+			written after modification up
+			*/
+			//SYSTICK_voidDelayMilliSec(500);
 			LCD_voidClearScreen();
-			Global_PatientCounter++;
+			SYSTICK_voidDelayMilliSec(500);
+			//Global_PatientCounter++; why? this is edit we wont need to add new patient/increment counter
 			break;
 		}
+		else
+		{
+			LCD_voidDisplayString("ID does not exist!");
+			SYSTICK_voidDelayMilliSec(500);
+		}
+		//}
+
 	}
 }
+
+void APP_voidReserveSlot(void)
+{
+	u8 slot;
+	u8 id;
+
+	LCD_voidDisplayString("Please select slot time:");
+	SYSTICK_voidDelayMilliSec(1000);
+	LCD_voidMoveCursor(0,0);
+	LCD_voidDisplayString("1)12PM 2)1PM 3)2PM");
+	LCD_voidMoveCursor(1,0);
+	LCD_voidDisplayString("4)3PM 5)4PM");
+	BT_voidReceiveData(&mobile,slot, 1);
+
+	if(timeSlots[(slot-1)].availability == AVAILABLE))
+	{
+		LCD_voidClearScreen();
+		SYSTICK_voidDelayMilliSec(500);
+		LCD_voidDisplayString("Please enter ID: ");
+		BT_voidReceiveData(&mobile, id, 1);
+		timeSlots[(slot-1)].availability = NOT_AVAILABLE;
+		timeSlots[(slot-1)].ID = id;
+	}
+
+	else
+	{
+		LCD_voidClearScreen();
+		SYSTICK_voidDelayMilliSec(500);
+		LCD_voidDisplayString("Slot unavailable!");
+	}
+
+
+}
+
+void APP_voidCancelReservation(void)
+{
+
+}
+
+
+/**************** User Functions *****************/
+
+void APP_voidViewPatient(void)
+{
+	u8 id = 100;
+
+	while(id >= Global_PatientCounter)
+	{
+	LCD_voidDisplayString("Please enter your ID: ");
+	BT_voidReceiveData(&mobile, id, 1);
+	if (id >= Global_PatientCounter) LCD_voidDisplayString("ID does not exist! ");
+	}
+
+	LCD_voidClearScreen();
+	SYSTICK_voidDelayMilliSec(500);
+
+	LCD_voidDisplayString("Name: ");
+	LCD_voidMoveCursor(0, 6);
+	LCD_voidDisplayString(Patient[id].name);
+	LCD_voidMoveCursor(1, 0);
+	LCD_voidDisplayString("ID: ");
+	LCD_voidMoveCursor(1, 3);
+	LCD_voidDisplayString(Patient[id].ID);
+	LCD_voidMoveCursor(1, 5);
+	LCD_voidDisplayString("Age: ");
+	LCD_voidMoveCursor(1, 9);
+	LCD_voidDisplayString(Patient[id].age);
+	LCD_voidMoveCursor(1, 12);
+	LCD_voidDisplayString("G: ");
+	LCD_voidMoveCursor(1, 14);
+	if(Patient[id].gender == MALE)	LCD_voidDisplayString("M");
+	else	LCD_voidDisplayString("F");
+
+	SYSTICK_voidDelayMilliSec(5000);
+}
+
+void APP_voidViewReservation(void)
+{
+
+
+}
+
+
