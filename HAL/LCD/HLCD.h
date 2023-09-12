@@ -24,26 +24,23 @@
 #define LCD_DATA_BITS_MODE					4
 
 #define LCD_RS_PORT_ID						PORTB
-#define LCD_RS__ID						0
-GPIO_Config_t LCD_RS_Config		=	{GPIO_OUTPUT,GPIO_PUSH_PULL,GPIO_MEDUIM_SPEED,GPIO_PULL_DOWN,GPIO_AF0};
+#define LCD_RS_PIN_ID						0
+
 
 #define LCD_ENABLE_PORT_ID					PORTB
-#define LCD_ENABLE__ID					1
-GPIO_Config_t LCD_Enable_Config	=	{GPIO_OUTPUT,GPIO_PUSH_PULL,GPIO_MEDUIM_SPEED,GPIO_PULL_DOWN,GPIO_AF0};
+#define LCD_ENABLE_PIN_ID					1
+
 
 #define LCD_DB_PORT_ID						PORTA
-GPIO_Config_t LCD_DB_PORTConfig		=	{GPIO_OUTPUT,GPIO_PUSH_PULL,GPIO_MEDUIM_SPEED,GPIO_PULL_DOWN,GPIO_AF0};
+
 
 
 #if(LCD_DATA_BITS_MODE==4)
-#define LCD_DB4__ID              	    3
-#define LCD_DB5__ID						4
-#define LCD_DB6__ID						5
-#define LCD_DB7__ID                 		6
-GPIO_Config_t LCD_DB4_Config		=	{GPIO_OUTPUT,GPIO_PUSH_PULL,GPIO_MEDUIM_SPEED,GPIO_PULL_DOWN,GPIO_AF0};
-GPIO_Config_t LCD_DB5_Config		=	{GPIO_OUTPUT,GPIO_PUSH_PULL,GPIO_MEDUIM_SPEED,GPIO_PULL_DOWN,GPIO_AF0};
-GPIO_Config_t LCD_DB6_Config		=	{GPIO_OUTPUT,GPIO_PUSH_PULL,GPIO_MEDUIM_SPEED,GPIO_PULL_DOWN,GPIO_AF0};
-GPIO_Config_t LCD_DB7_Config		=	{GPIO_OUTPUT,GPIO_PUSH_PULL,GPIO_MEDUIM_SPEED,GPIO_PULL_DOWN,GPIO_AF0};
+#define LCD_DB4_PIN_ID              	    3
+#define LCD_DB5_PIN_ID						4
+#define LCD_DB6_PIN_ID						5
+#define LCD_DB7_PIN_ID                 		6
+
 #endif
 
 /**********************************************************************************************
@@ -66,9 +63,9 @@ GPIO_Config_t LCD_DB7_Config		=	{GPIO_OUTPUT,GPIO_PUSH_PULL,GPIO_MEDUIM_SPEED,GP
 void LCD_voidInit(void);
 void LCD_voidSendCommand(u8 command);
 void LCD_voidDisplayCharacter(u8 character);
-void LCD_voidDisplayString(char *Str);
+void LCD_voidDisplayString(u8 *Str);
 void LCD_voidMoveCursor(u8 row,u8 col);
-void LCD_voidDisplayStringRowColumn(u8 row,u8 col,char *Str);
+void LCD_voidDisplayStringRowColumn(u8 row,u8 col,u8 *Str);
 void LCD_voidIntgerToString(u32 data);
 void LCD_voidClearScreen(void);
 

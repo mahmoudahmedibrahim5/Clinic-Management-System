@@ -346,7 +346,7 @@ void APP_voidViewPatient(void)
 	while(id >= Global_PatientCounter)
 	{
 		LCD_voidDisplayString("Please enter your ID: ");
-		BT_voidReceiveData(&mobile, id, 1);
+		BT_voidReceiveData(&mobile, &id, 1);
 		if (id >= Global_PatientCounter) LCD_voidDisplayString("ID does not exist! ");
 	}
 
@@ -359,11 +359,11 @@ void APP_voidViewPatient(void)
 	LCD_voidMoveCursor(1, 0);
 	LCD_voidDisplayString("ID: ");
 	LCD_voidMoveCursor(1, 3);
-	LCD_voidDisplayString(Patient[id].ID);
+	LCD_voidDisplayString(&Patient[id].ID);
 	LCD_voidMoveCursor(1, 5);
 	LCD_voidDisplayString("Age: ");
 	LCD_voidMoveCursor(1, 9);
-	LCD_voidDisplayString(Patient[id].age);
+	LCD_voidDisplayString(&Patient[id].age);
 	LCD_voidMoveCursor(1, 12);
 	LCD_voidDisplayString("G: ");
 	LCD_voidMoveCursor(1, 14);
