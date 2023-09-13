@@ -72,43 +72,43 @@ void LCD_voidSendCommand(u8 command)
 	SYSTICK_voidDelayMilliSec(1);
 }
 
-void LCD_voidDisplayu8acter(u8 u8acter)
+void LCD_voidDisplayCharacter(u8 Character)
 {
 	GPIO_voidSetPinValue(LCD_RS_PORT_ID, LCD_RS_PIN_ID, GPIO_HIGH);
 	SYSTICK_voidDelayMilliSec(1);
 	GPIO_voidSetPinValue(LCD_ENABLE_PORT_ID, LCD_ENABLE_PIN_ID, GPIO_HIGH);
 	SYSTICK_voidDelayMilliSec(1);
-	GPIO_voidSetPortValue(PORTC, u8acter);
+	GPIO_voidSetPortValue(PORTC, Character);
 	SYSTICK_voidDelayMilliSec(1);
 #if ((LCD_DATA_BITS_MODE==4))
-	GPIO_voidSetPinValue(LCD_DB_PORT_ID, LCD_DB4_PIN_ID, GET_BIT(u8acter,4));
-	GPIO_voidSetPinValue(LCD_DB_PORT_ID, LCD_DB5_PIN_ID, GET_BIT(u8acter,5));
-	GPIO_voidSetPinValue(LCD_DB_PORT_ID, LCD_DB6_PIN_ID, GET_BIT(u8acter,6));
-	GPIO_voidSetPinValue(LCD_DB_PORT_ID, LCD_DB7_PIN_ID, GET_BIT(u8acter,7));
+	GPIO_voidSetPinValue(LCD_DB_PORT_ID, LCD_DB4_PIN_ID, GET_BIT(Character,4));
+	GPIO_voidSetPinValue(LCD_DB_PORT_ID, LCD_DB5_PIN_ID, GET_BIT(Character,5));
+	GPIO_voidSetPinValue(LCD_DB_PORT_ID, LCD_DB6_PIN_ID, GET_BIT(Character,6));
+	GPIO_voidSetPinValue(LCD_DB_PORT_ID, LCD_DB7_PIN_ID, GET_BIT(Character,7));
 	SYSTICK_voidDelayMilliSec(1);
 	GPIO_voidSetPinValue(LCD_ENABLE_PORT_ID, LCD_ENABLE_PIN_ID, GPIO_LOW);
 	SYSTICK_voidDelayMilliSec(1);
 	GPIO_voidSetPinValue(LCD_ENABLE_PORT_ID, LCD_ENABLE_PIN_ID, GPIO_HIGH);
 	SYSTICK_voidDelayMilliSec(1);
-	GPIO_voidSetPinValue(LCD_DB_PORT_ID, LCD_DB4_PIN_ID, GET_BIT(u8acter,0));
-	GPIO_voidSetPinValue(LCD_DB_PORT_ID, LCD_DB5_PIN_ID, GET_BIT(u8acter,1));
-	GPIO_voidSetPinValue(LCD_DB_PORT_ID, LCD_DB6_PIN_ID, GET_BIT(u8acter,2));
-	GPIO_voidSetPinValue(LCD_DB_PORT_ID, LCD_DB7_PIN_ID, GET_BIT(u8acter,3));
+	GPIO_voidSetPinValue(LCD_DB_PORT_ID, LCD_DB4_PIN_ID, GET_BIT(Character,0));
+	GPIO_voidSetPinValue(LCD_DB_PORT_ID, LCD_DB5_PIN_ID, GET_BIT(Character,1));
+	GPIO_voidSetPinValue(LCD_DB_PORT_ID, LCD_DB6_PIN_ID, GET_BIT(Character,2));
+	GPIO_voidSetPinValue(LCD_DB_PORT_ID, LCD_DB7_PIN_ID, GET_BIT(Character,3));
 	SYSTICK_voidDelayMilliSec(1);
 #elif((LCD_DATA_BITS_MODE==8))
-	GPIO_voidSetPortValue(LCD_DB_PORT_ID, u8acter);
+	GPIO_voidSetPortValue(LCD_DB_PORT_ID, Character);
 	SYSTICK_voidDelayMilliSec(1);
 #endif
 	GPIO_voidSetPinValue(LCD_ENABLE_PORT_ID, LCD_ENABLE_PIN_ID, GPIO_LOW);
 	SYSTICK_voidDelayMilliSec(1);
 }
 
-void LCD_voidDisplayString(u8 *Str)
+void LCD_voidDisplayString(char *Str)
 {
 	u8 i=0;
 	while(Str[i]!='\0')
 	{
-		LCD_voidDisplayu8acter(Str[i]);
+		LCD_voidDisplayCharacter(Str[i]);
 		i++;
 	}
 }
@@ -134,7 +134,7 @@ void LCD_voidMoveCursor(u8 row,u8 col)
 	LCD_voidSendCommand(lcd_meomry_address|LCD_SET_CURSOR_LOCATION);
 }
 
-void LCD_voidDisplayStringRowColumn(u8 row,u8 col,u8 *Str)
+void LCD_voidDisplayStringRowColumn(u8 row,u8 col, char *Str)
 {
 	LCD_voidMoveCursor(row, col);
 	LCD_voidDisplayString(Str);
@@ -142,7 +142,7 @@ void LCD_voidDisplayStringRowColumn(u8 row,u8 col,u8 *Str)
 
 void LCD_voidIntgerToString(u32 data)
 {
-	u8 buff[16];				/* String to hold the ascii result */
+	char buff[16];				/* String to hold the ascii result */
 	itoa(data,buff,10);			/* Use itoa C function to convert the data to its corresponding ASCII value, 10 for decimal */
 	LCD_voidDisplayString(buff);
 }

@@ -31,7 +31,7 @@
 #define LCD_ENABLE_PIN_ID					1
 
 
-#define LCD_DB_PORT_ID						PORTA
+#define LCD_DB_PORT_ID						PORTB
 
 
 
@@ -63,9 +63,9 @@
 void LCD_voidInit(void);
 void LCD_voidSendCommand(u8 command);
 void LCD_voidDisplayCharacter(u8 character);
-void LCD_voidDisplayString(u8 *Str);
+void LCD_voidDisplayString(char *Str);
 void LCD_voidMoveCursor(u8 row,u8 col);
-void LCD_voidDisplayStringRowColumn(u8 row,u8 col,u8 *Str);
+void LCD_voidDisplayStringRowColumn(u8 row,u8 col, char *Str);
 void LCD_voidIntgerToString(u32 data);
 void LCD_voidClearScreen(void);
 

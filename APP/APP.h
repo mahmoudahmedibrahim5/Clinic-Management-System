@@ -8,6 +8,7 @@
 #ifndef APP_H_
 #define APP_H_
 
+#include "string.h"
 #include "../MCAL/RCC/RCC_Interface.h"
 
 #include "../HAL/BT_Module/BT_Interface.h"
@@ -15,6 +16,7 @@
 #include "../HAL/LED/LED_Interface.h"
 #include "../HAL/LCD/HLCD.h"
 
+#define DEBUG 	1
 
 /********************** Time Slots *********************/
 typedef enum{
@@ -43,7 +45,7 @@ typedef enum{
 }EN_Gender_t;
 
 typedef struct{
-	u8 name[20];
+	char name[20];
 	u8 age;
 	u8 ID;
 	EN_SlotTime_t slot;

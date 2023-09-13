@@ -238,7 +238,7 @@ void GPIO_voidTogglePort(EN_Port_t port)
 	GPIOn->ODR ^= 0xFFFF;
 }
 
-u8 GPIO_voidReadPin(EN_Port_t port, u8 pinNum)
+u8 GPIO_u8ReadPin(EN_Port_t port, u8 pinNum)
 {
 	st_GPIO_RegDef_t *GPIOn;
 	switch (port) {
@@ -267,7 +267,7 @@ u8 GPIO_voidReadPin(EN_Port_t port, u8 pinNum)
 	return (u8) ((GPIOn->IDR & (1 << pinNum)) >> pinNum);
 }
 
-u16 GPIO_voidReadPort(EN_Port_t port)
+u16 GPIO_u16ReadPort(EN_Port_t port)
 {
 	st_GPIO_RegDef_t *GPIOn;
 	switch (port) {
